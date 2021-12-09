@@ -1,0 +1,198 @@
+{
+    padding:0;
+    margin:0;
+    font-family: sans-serif;
+}
+
+.body{
+    background-image: url(Pemandangan.jpg) ;
+    background-size: cover;
+    font-size: medium;
+} 
+
+.profile{
+    width:350px;
+    height: 450px ;
+    background: rgba(0,0,0,0.7);
+    margin: 20px auto;
+}
+
+.profile img{
+    width:150px;
+    height: 150px;
+    border-radius: 50% ;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.profile h1{
+text-align: center;
+color: aliceblue;
+font-weight: bold;
+font-size: 25px;
+}
+
+.profile p{
+   color:goldenrod;
+   font-weigt: bold;
+   margin : center;
+   margin-top: 10px;
+   margin-left: 50px;
+   margin-left: 50px;
+   font-size: 20px;
+}
+
+.judul strong{
+    font-size: 20px; 
+    color: aliceblue;
+    margin-left: 10px;
+}
+
+.akun strong{
+    font-size: 40px; 
+    color: rgb(250, 2, 126);
+    margin-left: 555px;
+}
+
+.sosmed strong{
+    border-radius: 80% ;
+    margin-left: 630px;
+
+}
+
+}
+body{
+    color: #7b7b80;
+    font-size:20px;
+    margin: 0px;
+    padding: 0px;
+}
+
+header{
+ background-image: url(Pemandangan.jpg);
+background-size: cover;
+}
+
+header ul{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    padding: 18px;
+}
+header ul li{
+    display: block;
+}
+header ul li a {
+    color:rgb(255,255,255);
+text-decoration: none;
+padding-left: 30px;
+padding-right: 10px;
+}
+
+.container {
+width: 1024px;
+margin-left: auto;
+margin-right: auto;
+font-size: 20px;
+}
+.banner{
+    text-align: center;
+}
+.ana{
+ margin-right:20px;
+}
+.banner h1{
+    color: black;
+    font-size:50px ;  
+}
+.banner h3{
+    color: black;
+    font: size 25px;px ;
+    padding-top: 10px;
+}
+
+.iPhone{
+    padding-top: -100px;
+}
+.bannerdua{
+   background-image: url(Pemandangan.jpg);
+.bannerdua h1{
+    color: rgb(255, 255, 255);
+}
+}
+.bannerdua a{
+    color: rgb(19, 150, 226);
+}
+.bannertiga{
+    color:rgb(0, 0, 0);
+    background-color: #fafafd;
+}
+.bannerempat okti{
+  padding-top: 10px;
+  padding-right: 30px;
+  padding-bottom: 20px;
+  padding-left: 40px;
+
+
+.card img{ 
+  position:relative;
+  display: block;
+  margin: auto;
+  width: 180px;
+  z-index: 1;
+  margin-top: 10px;
+}
+.card-body button{
+  color: white;
+}
+
+
+/* FORMULIR */
+#form {
+    padding-top: 30px;
+  }
+  input[type='select']{
+    width: 20px;
+    height: 100px;
+    padding: 12px 20px;
+  }
+  input[type='text']:focus,
+  select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 3px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+  }
+  input[type='text'],
+  text {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+  }
+  input[type='password'] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+  }
+  textarea {
+    width: 300px;
+    height: 200px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+  }
+  
