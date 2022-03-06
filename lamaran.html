@@ -51,7 +51,6 @@
               </div>
           </div>
       </div>
-       
 
     <div id="app">
 
@@ -62,24 +61,25 @@
             </div>
       
             <div class="col-md-12">
-              <h4 class="mb-3">User Data  <button class="btn btn-md btn-primary" v-on:click="resetForm()">Create new User </button>
+              <h4 class="mb-3">Lamaran Data  <button class="btn btn-md btn-primary" v-on:click="resetForm()">Create new User </button>
               </h4>
               <table class="table table-striped">
                   <tr>
                       <th>ID</th>
-                      <th>Username</th>
-                      <th>Nim</th>
-                      <th>Password</th>
+                      <th>ID User</th>
+                      <th>ID Lowongan</th>
+                      <th>Status</th>
+                      <th>Waktu</th>
                       <th>Edit</th>
                       <th>Delete</th>
                   </tr>
-                  <tr v-for="user in users">
-                      <td>{{ user.id }}</td>
-                      <td>{{ user.username }}</td>
-                      <td>{{ user.nim}}</td>
-                      <td>{{ user.password }}</td>
-                      <td><button class="btn btn-md btn-warning" v-on:click="getEdit(user)">Edit</button></td>
-                      <td><button class="btn btn-danger" v-on:click="getDelete(user)">Delete</button></td>
+                  <tr v-for="lamaran in lamarans">
+                      <td>{{ lamaran.id }}</td>
+                      <td>{{ lamaran.id_user }}</td>
+                      <td>{{ lamaran.status}}</td>
+                      <td>{{ lamaran.waktu}}</td>
+                      <td><button class="btn btn-md btn-warning" v-on:click="getEdit(lamaranIdEdit)">Edit</button></td>
+                      <td><button class="btn btn-danger" v-on:click="getDelete(lamaran)">Delete</button></td>
                   </li>
               </table>
 
@@ -88,39 +88,43 @@
               </div>
               
           
-              <h4 class="mb-3">User Information</h4>
+              <h4 class="mb-3">Lamaran Information</h4>
                 <div class="row">
                   <div class="mb-3">
-                      <label for="username">Username</label>
-                        <input v-model="username" type="text" class="form-control" id="username" placeholder="Username" required>
-                        <div class="invalid-feedback" style="width: 100%;">
-                          Your username is required.
+                      <label for="username">id_user</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">@</span>
                         </div>
+                        <input v-model="id_user" type="text" class="form-control" id="id_user" placeholder="id_user" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                          Your user is required.
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="mb-3">
-                      <label for="nim">Nim</label>
-                      <input v-model="nim" type="number" class="form-control" id="nim" placeholder="" required>
-                      <div class="invalid-feedback">
-                        Valid Nim is required.
-                      </div>
+                <div class="mb-3">
+                  <label for="">Status <span class="text-muted">(Optional)</span></label>
+                  <input v-model="status" type="status" class="form-control" id="status" placeholder="Inside/Outside">
+                  <div class="invalid-feedback">
+                    Your Status is required.
                   </div>
                 </div>
-            </div>
 
-                  <div class="col-sm-12">
-                    <label for="password">Password</label>
-                    <input v-model="password" type="password" class="form-control" id="password" placeholder="Password" required>
-                    <div class="invalid-feedback" style="width: 100%;">
-                      Valid password is required.
+                <div class="mb-3">
+                    <label for="waktu">Waktu</label>
+                    <input v-model="waktu" type="text" class="form-control" id="waktu" placeholder="Ketikkan Jam Waktu anda Melamar" value="" required>
+                    <div class="invalid-feedback">
+                      Valid Waktu is required.
                     </div>
-                  </div>
-              
+                </div>
+              </div>
+          </div>
               
                 <hr class="mb-4">
-                <button v-if="!editMode && !deleteMode" v-on:click="createUser" class="btn btn-primary btn-lg btn-block" type="submit">Submit Data</button>
-                <button v-if="editMode" v-on:click="updateUser" class="btn btn-warning btn-lg btn-block" type="submit">Update Data</button>
-                <button v-if="deleteMode" v-on:click="deleteUser" class="btn btn-danger btn-lg btn-block" type="submit">Delete Data</button>
+                <button v-if="!editMode && !deleteMode" v-on:click="createLamaran" class="btn btn-primary btn-lg btn-block" type="submit">Submit Data</button>
+                <button v-if="editMode" v-on:click="updateLamaran" class="btn btn-warning btn-lg btn-block" type="submit">Update Data</button>
+                <button v-if="deleteMode" v-on:click="deleteLamaran" class="btn btn-danger btn-lg btn-block" type="submit">Delete Data</button>
                 
               </form>
             </div>
@@ -146,38 +150,35 @@
           data: {
               errors: [],
               message: null,
-              users:[],
-              userIdEdit: null,
-              userIdDelete: null,
+              lamarans:[],
+              LamaranIdEdit: null,
+              LamaranIdDelete: null,
               editMode: false,
               deleteMode: false,
-              username: '',
-              nim: '',
-              password: '', 
+              status: '',
+              waktu: '',
           },
           mounted: function() {
-              this.getUser();
+              this.getLamaran();
           },
           methods: {
-              getUser() {
-                  axios.get('https://6220a6f9afd560ea6998b137.mockapi.io/user')
+              getLamaran() {
+                  axios.get('https://6220a6f9afd560ea6998b137.mockapi.io/lamaran')
                       .then(response => {
-                          this.users = response.data;
+                          this.lamarans = response.data;
                           console.log(response);
                       })
                       .catch(error => {
                           console.log(error);
                       });
               },
-              createUser: function(){
-                  axios.post('https://6220a6f9afd560ea6998b137.mockapi.io/user', {
-                      username: this.username,
-                      nim: this.nim,
-                      password: this.password,
-                     
+              createLamaran: function(){
+                  axios.post('https://6220a6f9afd560ea6998b137.mockapi.io/lamaran', {
+                      status: this.status,
+                      waktu: this.waktu,
                   })
                   .then(response => {
-                          this.getUser();
+                          this.getLamaran();
                           this.message = "Your data has been submitted";
                           console.log(response);
                   })
@@ -189,55 +190,52 @@
                   this.message = null;
                   this.editMode = false;
                   this.deleteMode = false;
-                  this.userIdEdit = null;
-                  this.username = null;
-                  this.nim = null;
-                  this.password = null;
+                  this.lamaranIdEdit = null;
+                  this.status = null;
+                  this.waktu = null;
                 
               },
-              getEdit: function (user) {
+              getEdit: function (lamaran) {
                   this.message = null;
                   this.editMode = true;
                   this.deleteMode = false;
-                  this.userIdEdit = user.id;
-                  this.username = user.username;
-                  this.nim = user.nim;
-                  this.password = user.password;
+                  this.lamaranIdEdit = lamaran.id;
+                  this.status = lamaran.status;
+                  this.waktu = lamaran.waktu;
+                
               },
-              getDelete: function (user) {
+              getDelete: function (lamaran) {
                   this.message = null;
                   this.deleteMode = true;
                   this.editMode = false;
-                  this.userIdDelete = user.id;
-                  this.username = user.username;
-                  this.nim = user.nim;
-                  this.password = user.password;
-                  
+                  this.lamaranIdDelete = lamaran.id;
+                  this.status = lamaran.status;
+                  this.waktu = lamaran.waktu;
+                 
               },
               updateUser: function () {
-                  axios.put(`https://6220a6f9afd560ea6998b137.mockapi.io/user/${this.userIdEdit}`, {
-                          username: this.username,
-                          nim: this.nim,
-                          password: this.password,
-                          
+                  axios.put(`https://6220a6f9afd560ea6998b137.mockapi.io/lamaran/${this.lamaranIdEdit}`, {
+                          status: this.status,
+                          waktu: this.waktu,
+                        
                       })
                       .then(res => {
                           // handle success
                           this.message = "Your data has been updated";
-                          this.getUser();
+                          this.getLamaran();
                       })
                       .catch(err => {
                           // handle error
                           console.log(err);
                       })
               },
-              // Delete User
-              deleteUser: function () {
-                  axios.delete(`https://6220a6f9afd560ea6998b137.mockapi.io/user/${this.userIdDelete}`)
+              // Delete Lamaran
+              deleteLamaran: function () {
+                  axios.delete(`https://6220a6f9afd560ea6998b137.mockapi.io/lamaran/${this.userIdDelete}`)
                       .then(res => {
                           // handle success
                           this.message = "Your data has been deleted";
-                          this.getUser();
+                          this.getLamaran();
                       })
                       .catch(err => {
                           // handle error

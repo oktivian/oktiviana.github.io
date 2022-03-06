@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labor UNAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="sieses.css">
+    
+</head>
+<body>
+
+        <!-- Toggler/collapsibe Button -->
+        <div class="navbar navbar-expand-sm">
+          <div class="container-fluid">
+              <ul class="navbar-nav">
+                  <li class="title">LABOR UNAI</li>
+              </ul>
+              <div class="mx-auto"></div>
+              <ul class="navbar-nav navi">
+                  <li class="nav-item">
+                      <a href="index.html" class="nav-link">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="departement.html" class="nav-link">Departement</a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="lamaran.html" class="nav-link">Lamaran</a>
+                  </li>
+              </ul>
+              <div class="mx-auto"></div>
+              <div class="dropdown sn">
+                  <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                      <i class='bx bx-music' width="100px"></i>
+                      <span style="padding: 60px 15px;">Labor Unai</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                      <li>
+                          <a href="index.html" class="dropdown-item">Home</a>
+                      </li>
+                      <li>
+                          <a href="departement.html" class="dropdown-item">Departement</a>
+                      </li>
+                      <li>
+                        <a href="lamaran.html" class="dropdown-item">Lamaran</a>
+                    </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+
+    <div id="app">
+
+      <div class="container">
+        <div class="py-5 text-center">
+          <h2>Pencari Labor Mahasiswa UNAI</h2>
+          <p class="lead">T.A Genap 2021/2022</p>
+        </div>
+      
+              <div class="col-md-12">
+                <h4 class="mb-3">Departement Data  <button class="btn btn-md btn-primary" v-on:click="resetForm()">Create new User </button>
+                </h4>
+                <table class="table table-striped">
+                    <tr>
+                        <th>No</th>
+                        <th>ID_User</th>
+                        <th>Nama Departement</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    <tr v-for="departement in departements">
+                        <td>{{ departement.id }}</td>
+                        <td>{{ departement.id_user }}</td>
+                        <td>{{ departement.nama_departement }}</td>
+                   
+                        <td><button class="btn btn-md btn-warning" v-on:click="getEdit(departement)">Edit</button></td>
+                        <td><button class="btn btn-danger" v-on:click="getDelete(departement)">Delete</button></td>
+                    </li>
+                </table>
+
+                <div v-if="message" class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            
+                <h4 class="mb-3">Informasi Departement</h4>
+                <form class="needs-validation" novalidate>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="">id_user</label>
+                      <input  v-model="id_user" type="text" class="form-control" id="id_user" placeholder="" value="" required>
+                      <div class="invalid-feedback">
+                        Valid date is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="status">nama_departement</label>
+                      <input  v-model="nama_departement" type="text" class="form-control" id="nama_departement" placeholder="" value="" required>
+                      <div class="invalid-feedback">
+                        Valid first name is required.
+                      </div>
+                  </div>
+      
+                  </div>
+                
+                  <hr class="mb-4">
+                  <button v-if="!editMode && !deleteMode" v-on:click="createDepartement" class="btn btn-primary btn-lg btn-block" type="submit">Submit Data</button>
+                  <button v-if="editMode" v-on:click="updateDepartement" class="btn btn-warning btn-lg btn-block" type="submit">Update Data</button>
+                  <button v-if="deleteMode" v-on:click="deleteDepartement" class="btn btn-danger btn-lg btn-block" type="submit">Delete Data</button>
+                  
+                </form>
+              </div>
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2021 FTI UNAI</p>
+                <ul class="list-inline">
+                  <li class="list-inline-item"><a href="#">Privacy</a></li>
+                  <li class="list-inline-item"><a href="#">Terms</a></li>
+                  <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+              </footer>
+
+    </div>
+    
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        var app = new Vue ({
+            el: '#app',
+            data: {
+                errors: [],
+                message: null,
+                departements:[],
+                departementIdEdit: null,
+                departementIdDelete: null,
+                editMode: false,
+                deleteMode: false,
+                id_user: '',
+                nama_departement: '',
+            },
+            mounted: function() {
+                this.getDepartement();
+            },
+            methods: {
+                getDepartement() {
+                    axios.get('https://6220a6f9afd560ea6998b137.mockapi.io/departement')
+                        .then(response => {
+                            this.departements = response.data;
+                            console.log(response);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                },
+                createDepartement: function(){
+                    axios.post('https://6220a6f9afd560ea6998b137.mockapi.io/departement', {
+                        id_user: this.id_user,
+                        nama_departement: this.nama_departement,
+                    })
+                    .then(response => {
+                            this.getDepartement();
+                            this.message = "Your data has been submitted";
+                            console.log(response);
+                    })
+                    .catch(error => {
+                            console.log(error);
+                    });
+                },
+                resetForm: function () {
+                    this.message = null;
+                    this.editMode = false;
+                    this.deleteMode = false;
+                    this.departementIdEdit = null;
+                    this.id_user= null;
+                    this.nama_departement = null;
+                },
+                getEdit: function (departement) {
+                    this.message = null;
+                    this.editMode = true;
+                    this.deleteMode = false;
+                    this.departementIdEdit = departement.id;
+                    this.id_user = departement.id_user;
+                    this.nama_departement= departement.nama_departement;
+                },
+                getDelete: function (departement) {
+                    this.message = null;
+                    this.deleteMode = true;
+                    this.editMode = false;
+                    this.departementIdDelete = departement.id;
+                    this.id_user = departement.id_user;
+                    this.departement = departement.nama_departement;
+                },
+                updateDepartement: function () {
+                    axios.put(`https://6220a6f9afd560ea6998b137.mockapi.io/departement/${this.departementIdEdit}`, {
+                            id_user: this.id_user,
+                            nama_departement: this.nama_departement,
+                        })
+                        .then(res => {
+                            // handle success
+                            this.message = "Your data has been updated";
+                            this.getDepartement();
+                        })
+                        .catch(err => {
+                            // handle error
+                            console.log(err);
+                        })
+                },
+                // Delete User
+                deleteDepartement: function () {
+                    axios.delete(`https://6220a6f9afd560ea6998b137.mockapi.io/departement/${this.departementIdDelete}`)
+                        .then(res => {
+                            // handle success
+                            this.message = "Your data has been deleted";
+                            this.getDepartement();
+                        })
+                        .catch(err => {
+                            // handle error
+                            console.log(err);
+                        })
+                }
+            }
+        })
+        
+    </script>
+
+
+</body>
+</html>
